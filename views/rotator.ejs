@@ -4,24 +4,18 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="http://kenwheeler.github.io/slick/slick/slick.css"
+      href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="http://kenwheeler.github.io/slick/slick/slick-theme.css"
+      href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="http://kenwheeler.github.io/slick/css/style.css"
+      href="/stylesheets/style.css"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="http://kenwheeler.github.io/slick/css/prism.css"
-    />
-
     <title><%= title %></title>
   </head>
   <body>
@@ -30,7 +24,7 @@
         <div class="slider single-item">
           <% slides.forEach(function(slide) { %>
           <div>
-            <img src="<%= slide.desktop_login.url %>" />
+            <img src="<%= slide.desktop_logout.url %>" />
           </div>
           <% }) %>
         </div>
@@ -38,24 +32,17 @@
     </section>
 
     <script
-      type="text/javascript"
-      src="//code.jquery.com/jquery-1.11.0.min.js"
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+      crossorigin="anonymous"
     ></script>
     <script
       type="text/javascript"
-      src="//code.jquery.com/jquery-migrate-1.2.1.min.js"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"
     ></script>
     <script
       type="text/javascript"
-      src="http://kenwheeler.github.io/slick/slick/slick.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="http://kenwheeler.github.io/slick/js/scripts.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="http://kenwheeler.github.io/slick/js/prism.js"
+      src="/javascripts/scripts.js"
     ></script>
   </body>
 </html>

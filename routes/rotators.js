@@ -10,16 +10,16 @@ router.get("/", function(req, res, next) {
       var slides = rotators[0].slides.map(function(slide) {
         return {
           desktop_login: {
-            url: slide.desktopLogin.url
+            url: slide.desktopLogin ? slide.desktopLogin.url : ""
           },
           desktop_logout: {
-            url: slide.desktopLogout.url
+            url: slide.desktopLogout ? slide.desktopLogout.url : ""
           },
           mobile_login: {
-            url: slide.mobileLogin.url
+            url: slide.mobileLogin ? slide.mobileLogin.url : ""
           },
           mobile_logout: {
-            url: slide.mobileLogout.url
+            url: slide.mobileLogout ? slide.mobileLogout.url : ""
           }
         };
       });
