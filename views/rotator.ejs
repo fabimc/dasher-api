@@ -16,21 +16,6 @@
       type="text/css"
       href="/stylesheets/style.css"
     />
-    <title><%= title %></title>
-  </head>
-  <body>
-    <section id="features" class="blue">
-      <div class="content">
-        <div class="slider single-item">
-          <% slides.forEach(function(slide) { %>
-          <div>
-            <img src="<%= slide.desktop_logout.url %>" />
-          </div>
-          <% }) %>
-        </div>
-      </div>
-    </section>
-
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -44,5 +29,23 @@
       type="text/javascript"
       src="/javascripts/scripts.js"
     ></script>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <section id="features" class="blue">
+      <div class="content">
+        <div class="slider single-item">
+          <% slides.forEach(function(slide) { %>
+          <div>
+            <picture>
+              <source media="(max-width: 799px)" srcset="<%= slide.mobile.url %>">
+              <source media="(min-width: 800px)" srcset="<%= slide.desktop.url %>">
+              <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
+            </picture>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
