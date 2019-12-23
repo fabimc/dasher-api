@@ -37,11 +37,13 @@
         <div class="slider single-item">
           <% slides.forEach(function(slide) { %>
           <div>
-            <picture>
-              <source media="(max-width: 799px)" srcset="<%= slide.mobile.url %>">
-              <source media="(min-width: 800px)" srcset="<%= slide.desktop.url %>">
-              <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
-            </picture>
+            <a href="<%= slide.cta %>">
+              <picture>
+                <source media="(max-width: 799px)" srcset="<%= slide.mobile.url %>">
+                <source media="(min-width: 800px)" srcset="<%= slide.desktop.url %>">
+                <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
+              </picture>
+            </a>
           </div>
           <% }) %>
         </div>
