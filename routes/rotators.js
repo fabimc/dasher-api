@@ -2,14 +2,15 @@ var express = require("express");
 var R = require("ramda");
 var request = require("request-promise-native");
 var router = express.Router();
+var baseUrl = require("../config/application.json").baseUrl;
 
 /* GET rotators page. */
 router.get("/", function(req, res, next) {
   var qs = R.omit(["state"], req.query);
   var user_state = R.path(["state"], R.pick(["state"], req.query)) || "logout";
-  request({ url: "http://localhost:1337/rotators", qs: qs, json: true })
+  request({ url: `${baseUrl}/rotators`, qs: qs, json: true })
     .then(function(rotators) {
-      console.log("rotators[0].slides", rotators[0].slides);
+      // console.log("rotators[0].slides", rotators[0].slides);
       var slides = rotators[0].slides.map(function(slide) {
         return {
           desktop: {
@@ -23,7 +24,7 @@ router.get("/", function(req, res, next) {
         };
       });
       
-      console.log("slides", slides);
+      // console.log("slides", slides);
       res.render("rotator", { title: "Rotator", slides: slides });
     })
     .catch(function(err) {
