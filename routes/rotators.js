@@ -7,37 +7,70 @@ var router = express.Router()
 
 /* GET rotators page. */
 router.get('/', function (req, res, next) {
-  var qs = R.omit(['state', 'site'], req.query)
-  var user_state = R.path(['state'], R.pick(['state'], req.query)) || 'logout'
-  const site = R.path(['site'], R.pick(['site'], req.query))
-  const baseUrl = R.path([site], config) || 'baseUrlSb'
-  var sortByPriority = R.sortBy(R.prop('priority'))
+  const qs = R.omit(['contentstatus', 'siteid'], req.query)
+  const sortByPriority = R.sortBy(R.prop('priority'))
   const contentOnSchedule = content => {
     currentDate = new Date()
-    const validStart = !content.start || dateFns.compareAsc(dateFns.parseISO(content.start), currentDate)
-    const validEnd = !content.end || dateFns.compareDesc(dateFns.parseISO(content.end), currentDate)
+    const validStart =
+      !content.start ||
+      dateFns.compareAsc(dateFns.parseISO(content.start), currentDate)
+    const validEnd =
+      !content.end ||
+      dateFns.compareDesc(dateFns.parseISO(content.end), currentDate)
     return validStart && validEnd
   }
+  const getBaseUrl = siteId => {
+    let baseUrl
+    switch (siteId) {
+      case '10':
+        baseUrl = config.baseUrlBol
+        break
+      case '11':
+        baseUrl = config.baseUrlSb
+        break
+      default:
+        baseUrl = config.baseUrlSb
+    }
+    return baseUrl
+  }
+  const baseUrl = getBaseUrl(R.path(['siteid'], req.query))
+  const getContentStatus = status => {
+    let contentStatus
+    switch (status) {
+      case '0':
+        contentStatus = 'logout'
+        break
+      case 1:
+        contentStatus = 'login'
+        break
+      default:
+        contentStatus = 'logout'
+    }
+    return contentStatus
+  }
+  const contentStatus = getContentStatus(
+    R.path(['contentstatus'], req.query)
+  )
   const transformSlide = slide => {
     if (contentOnSchedule(slide)) {
       return {
         desktop: {
-          url: slide[`desktop_${user_state}`]
-            ? slide[`desktop_${user_state}`].url
+          url: slide[`desktop_${contentStatus}`]
+            ? slide[`desktop_${contentStatus}`].url
             : ''
         },
         mobile: {
-          url: slide[`mobile_${user_state}`]
-            ? slide[`mobile_${user_state}`].url
+          url: slide[`mobile_${contentStatus}`]
+            ? slide[`mobile_${contentStatus}`].url
             : ''
         },
-        cta: slide[`cta_${user_state}`],
+        cta: slide[`cta_${contentStatus}`],
         alt: slide.alt
       }
     }
   }
 
-  request({ url: `${config[baseUrl]}/rotators`, qs: qs, json: true })
+  request({ url: `${baseUrl}/rotators`, qs: qs, json: true })
     .then(function (rotators) {
       let slides = []
       if (rotators.length > 0 && contentOnSchedule(rotators[0])) {
@@ -57,7 +90,10 @@ router.get('/', function (req, res, next) {
           if (rotatorsByPriority.length > 0) {
             console.log('rotatorsByPriority', rotatorsByPriority[0])
             const rotatorByPriority = rotatorsByPriority[0]
-            slides = R.map(transformSlide, sortByPriority(rotatorByPriority.slides))
+            slides = R.map(
+              transformSlide,
+              sortByPriority(rotatorByPriority.slides)
+            )
             console.log('default slides', slides)
             res.render('rotator', {
               title: 'Default Rotator',
