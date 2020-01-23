@@ -6,4 +6,4 @@ services:
   api:
     image: fmontealegre/content-source-api:latest
     ports:
-      - 1343:1335
+      - 1336:1336
