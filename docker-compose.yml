@@ -1,12 +1,11 @@
 version: "3"
 
 services:
-  nodejs:
-    content-source:
-      image: fmontealegre/content-source-03:latest
-      ports:
-        - 1339:1339
-    api:
-      image: fmontealegre/content-source-api:latest
-      ports:
-        - 1336:1336
+  content-source:
+    image: fmontealegre/content-source-03:latest
+    ports:
+      - 1339:1339
+  api:
+    image: fmontealegre/content-source-api:latest
+    ports:
+      - 1336:1336
