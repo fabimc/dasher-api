@@ -7,7 +7,7 @@ var router = express.Router()
 
 /* GET rotators page. */
 router.get('/', function (req, res, next) {
-  const qs = R.omit(['contentstatus', 'siteid'], req.query)
+  const qs = R.omit(['userstate', 'siteid'], req.query)
   const sortByPriority = R.sortBy(R.prop('priority'))
   const contentOnSchedule = content => {
     currentDate = new Date()
@@ -34,37 +34,33 @@ router.get('/', function (req, res, next) {
     return baseUrl
   }
   const baseUrl = getBaseUrl(R.path(['siteid'], req.query))
-  const getContentStatus = status => {
-    let contentStatus
-    switch (status) {
+  const getUserState = state => {
+    let userState
+    switch (state) {
       case '0':
-        contentStatus = 'logout'
+        userState = 'logout'
         break
       case 1:
-        contentStatus = 'login'
+        userState = 'login'
         break
       default:
-        contentStatus = 'logout'
+        userState = 'logout'
     }
-    return contentStatus
+    return userState
   }
-  const contentStatus = getContentStatus(
-    R.path(['contentstatus'], req.query)
+  const userState = getUserState(
+    R.path(['userstate'], req.query)
   )
   const transformSlide = slide => {
     if (contentOnSchedule(slide)) {
       return {
         desktop: {
-          url: slide[`desktop_${contentStatus}`]
-            ? slide[`desktop_${contentStatus}`].url
-            : ''
+          url: R.path([`desktop_${userState}`, 'file', 0, 'url'], slide)
         },
         mobile: {
-          url: slide[`mobile_${contentStatus}`]
-            ? slide[`mobile_${contentStatus}`].url
-            : ''
+          url: R.path([`mobile_${userState}`, 'file', 0, 'url'], slide)
         },
-        cta: slide[`cta_${contentStatus}`],
+        cta: slide[`cta_${userState}`],
         alt: slide.alt
       }
     }
