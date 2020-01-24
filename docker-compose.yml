@@ -2,7 +2,7 @@ version: "3"
 
 services:
   content-source:
-    image: fmontealegre/content-source-03:latest
+    image: fmontealegre/content-source-01:latest
     ports:
       - 1339:1339
   api:
