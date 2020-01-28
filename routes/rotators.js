@@ -7,7 +7,7 @@ var router = express.Router()
 
 /* GET rotators page. */
 router.get('/', function (req, res, next) {
-  const qs = R.omit(['userstate', 'siteid'], req.query)
+  const qs = R.omit(['userstate', 'siteid', 'json'], req.query)
   const sortByPriority = R.sortBy(R.prop('priority'))
   const contentOnSchedule = content => {
     currentDate = new Date()
@@ -34,6 +34,7 @@ router.get('/', function (req, res, next) {
     return baseUrl
   }
   const baseUrl = getBaseUrl(R.path(['siteid'], req.query))
+  const jsonOnly = R.path(['json'], req.query) === '1'
   const getUserState = state => {
     let userState
     switch (state) {
@@ -76,7 +77,11 @@ router.get('/', function (req, res, next) {
           slides = R.map(transformSlide, sortByPriority(rotator.slides))
         }
         console.log('slides', slides)
-        res.render('rotator', { title: 'Rotator', slides: slides })
+        if (jsonOnly) {
+          res.json(slides)
+        } else {
+          res.render('rotator', { title: 'Rotator', slides: slides })
+        }
       } else {
         request({
           url: `${baseUrl}/rotators`,
@@ -91,10 +96,14 @@ router.get('/', function (req, res, next) {
               sortByPriority(rotatorByPriority.slides)
             )
             console.log('default slides', slides)
-            res.render('rotator', {
-              title: 'Default Rotator',
-              slides: slides
-            })
+            if (jsonOnly) {
+              res.json(slides)
+            } else {
+              res.render('rotator', {
+                title: 'Default Rotator',
+                slides: slides
+              })
+            }
           }
         })
       }
