@@ -4,6 +4,17 @@ var express = require('express')
 var R = require('ramda')
 var request = require('request-promise-native')
 var router = express.Router()
+var graylog2 = require('graylog2')
+
+var logger = new graylog2.graylog({
+  servers: [{ host: 'gl.input.itspty.dom', port: 12201 }], // hostname: 'server.name', // the name of this host (optional, default: os.hostname())
+  facility: 'CONTENT-SOURCE-API', // the facility for these log messages (optional, default: "Node.js")
+  bufferSize: 1350 // max UDP packet size, should never exceed the MTU of your system (optional, default: 1400)
+})
+
+logger.on('error', function (error) {
+  console.error('Error while trying to write to graylog2:', error)
+})
 
 /* GET rotators page. */
 router.get('/', function (req, res, next) {
@@ -49,9 +60,7 @@ router.get('/', function (req, res, next) {
     }
     return userState
   }
-  const userState = getUserState(
-    R.path(['userstate'], req.query)
-  )
+  const userState = getUserState(R.path(['userstate'], req.query))
   const transformSlide = slide => {
     if (contentOnSchedule(slide)) {
       return {
@@ -69,6 +78,7 @@ router.get('/', function (req, res, next) {
 
   request({ url: `${baseUrl}/rotators`, qs: qs, json: true })
     .then(function (rotators) {
+      logger.log('@@ just testing')
       let slides = []
       if (rotators.length > 0 && contentOnSchedule(rotators[0])) {
         console.log('rotator', rotators[0])
@@ -110,6 +120,7 @@ router.get('/', function (req, res, next) {
     })
     .catch(function (err) {
       console.error(err)
+      logger.log(err)
     })
 })
 
