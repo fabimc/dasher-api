@@ -78,7 +78,6 @@ router.get('/', function (req, res, next) {
 
   request({ url: `${baseUrl}/rotators`, qs: qs, json: true })
     .then(function (rotators) {
-      logger.log('@@ just testing')
       let slides = []
       if (rotators.length > 0 && contentOnSchedule(rotators[0])) {
         console.log('rotator', rotators[0])
