@@ -80,7 +80,7 @@ router.get('/', function (req, res, next) {
     .then(function (rotators) {
       let slides = []
       if (rotators.length > 0 && contentOnSchedule(rotators[0])) {
-        logger.log('Rotators called')
+        logger.log('Rotators called', { rotators })
         const rotator = rotators[0]
         if (rotator.slides) {
           slides = R.map(transformSlide, sortByPriority(rotator.slides))
