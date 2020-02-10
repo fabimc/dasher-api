@@ -66,53 +66,22 @@
         <div class="layout__slider">
           <div class="promo-slider js-promo-slider">
             <!--slider01-->
+            <% slides.forEach(function(slide) { %>
             <div class="slide w100">
-              <a href="/join"
-                ><img
-                  alt="First slide"
-                  class="d-block w-100 desktop large"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator_1OUT.png"
+              <picture>
+                <source
+                  media="(max-width: 799px)"
+                  srcset="<%= slide.mobile.url %>"
                 />
-                <img
-                  alt="First slide"
-                  class="d-block w-100 mobile tablet"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator_1OUT_mobile.png"
+                <source
+                  media="(min-width: 800px)"
+                  srcset="<%= slide.desktop.url %>"
                 />
-              </a>
+                <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
+              </picture>
             </div>
-            <!--slider01 ends--><!--slider02-->
-
-            <div class="slide w100">
-              <a href="/join"
-                ><img
-                  alt="Second slide"
-                  class="d-block w-100 desktop large"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator_2OUT.png"
-                />
-                <img
-                  alt="Second slide"
-                  class="d-block w-100 mobile tablet"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator_2OUT_mobile.png"
-                />
-              </a>
-            </div>
-            <!--slider02 ends--><!--slider03-->
-
-            <div class="slide w100">
-              <a href="/join"
-                ><img
-                  alt="Third slide"
-                  class="d-block w-100 desktop large"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator03-out.png"
-                />
-                <img
-                  alt="Third slide"
-                  class="d-block w-100 mobile tablet"
-                  src="//devambui.betonline.ag/Amber/img/home/bol-hp-rotator_03mob_out.png"
-                />
-              </a>
-            </div>
-            <!--slider03-->
+            <% }) %>
+            <!--slider01 ends-->
           </div>
         </div>
         <!--boxes-->
