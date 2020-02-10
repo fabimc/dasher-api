@@ -1,32 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/stylesheets/slick.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/slick.css" />
     <link
       rel="stylesheet"
       type="text/css"
       href="/stylesheets/slick-theme.css"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/stylesheets/style.css"
-    />
-    <script
-      src="/javascripts/jquery-3.4.1.slim.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="/javascripts/slick.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="/javascripts/scripts.js"
-    ></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <script src="/javascripts/jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="/javascripts/slick.js"></script>
+    <script type="text/javascript" src="/javascripts/scripts.js"></script>
     <title><%= title %></title>
   </head>
   <body>
@@ -37,13 +21,40 @@
           <div>
             <a href="<%= slide.cta %>">
               <picture>
-                <source media="(max-width: 799px)" srcset="<%= slide.mobile.url %>">
-                <source media="(min-width: 800px)" srcset="<%= slide.desktop.url %>">
+                <source
+                  media="(max-width: 799px)"
+                  srcset="<%= slide.mobile.url %>"
+                />
+                <source
+                  media="(min-width: 800px)"
+                  srcset="<%= slide.desktop.url %>"
+                />
                 <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
               </picture>
             </a>
           </div>
           <% }) %>
+        </div>
+
+        <div class="floating-banners-righ clearfixt">
+          <a href="/promotions">
+            <img
+              alt=""
+              src="//devambui.betonline.ag/Amber/img/home/bol-promo1-mob.png"
+            />
+          </a>
+          <a href="/promotions#sports">
+            <img
+              alt=""
+              src="//devambui.betonline.ag/Amber/img/home/bol-promo2-mob.png"
+            />
+          </a>
+          <a href="/promotions#sports">
+            <img
+              alt=""
+              src="//devambui.betonline.ag/Amber/img/home/bol-promo3-mob.png"
+            />
+          </a>
         </div>
       </div>
     </section>
