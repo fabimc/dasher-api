@@ -61,55 +61,24 @@
 
     <!-- pagepart starts -->
 
-    <section>
-      <div class="layout__static-content-wrapper home-banner">
-        <div class="layout__slider">
-          <div class="promo-slider js-promo-slider">
-            <!--slider01-->
-            <% slides.forEach(function(slide) { %>
-            <div class="slide w100">
-              <picture>
-                <source
-                  media="(max-width: 799px)"
-                  srcset="<%= slide.mobile.url %>"
-                />
-                <source
-                  media="(min-width: 800px)"
-                  srcset="<%= slide.desktop.url %>"
-                />
-                <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
-              </picture>
-            </div>
-            <% }) %>
-            <!--slider01 ends-->
-          </div>
+    <div class="layout__slider">
+      <div class="promo-slider js-promo-slider">
+        <% slides.forEach(function(slide) { %>
+        <div class="slide w100">
+          <picture>
+            <source
+              media="(max-width: 799px)"
+              srcset="<%= slide.mobile.url %>"
+            />
+            <source
+              media="(min-width: 800px)"
+              srcset="<%= slide.desktop.url %>"
+            />
+            <img src="<%= slide.desktop.url %>" alt="<%= slide.alt %>" />
+          </picture>
         </div>
-        <!--boxes-->
-
-        <div class="floating-banners-container">
-          <!-- div class='floating-banners-left'> </div -->
-
-          <div class="floating-banners-righ clearfixt">
-            <a href="/promotions"
-              ><img
-                alt=""
-                src="//devambui.betonline.ag/Amber/img/home/bol-promo1-mob.png"
-            /></a>
-            <a href="/promotions#sports"
-              ><img
-                alt=""
-                src="//devambui.betonline.ag/Amber/img/home/bol-promo2-mob.png"
-            /></a>
-            <a href="/promotions#sports"
-              ><img
-                alt=""
-                src="//devambui.betonline.ag/Amber/img/home/bol-promo3-mob.png"
-            /></a>
-          </div>
-        </div>
-        <!--boxes-->
+        <% }) %>
       </div>
-      <!-- pagepart ends -->
-    </section>
+    </div>
   </body>
 </html>
