@@ -1,4 +1,4 @@
 {
-  "baseUrlSb": "http://content-source:1339",
-  "baseUrlBol": "http://content-source:1339"
+  "baseUrlSb": "http://localhost:1339",
+  "baseUrlBol": "http://localhost:1339"
 }

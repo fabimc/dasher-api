@@ -18,7 +18,10 @@ logger.on('error', function (error) {
 
 /* GET rotators page. */
 router.get('/', function (req, res, next) {
-  const qs = R.omit(['userstate', 'siteid', 'json'], req.query)
+  const qs = R.merge(
+    { status: 'published' },
+    R.omit(['userstate', 'siteid', 'json'], req.query)
+  )
   const sortByPriority = R.sortBy(R.prop('priority'))
   const contentOnSchedule = content => {
     currentDate = new Date()
@@ -80,12 +83,10 @@ router.get('/', function (req, res, next) {
     .then(function (rotators) {
       let slides = []
       if (rotators.length > 0 && contentOnSchedule(rotators[0])) {
-        logger.log('Rotators called', { rotators })
         const rotator = rotators[0]
         if (rotator.slides) {
           slides = R.map(transformSlide, sortByPriority(rotator.slides))
         }
-        console.log('slides', slides)
         if (jsonOnly) {
           res.json(slides)
         } else {
