@@ -46,7 +46,7 @@ router.get('/', function (req, res, next) {
         if (jsonOnly) {
           res.json(image)
         } else {
-          res.render('Image', { image })
+          res.render('image', { image })
         }
       } else {
         request({
@@ -59,7 +59,7 @@ router.get('/', function (req, res, next) {
             if (jsonOnly) {
               res.json(image)
             } else {
-              res.render('Default Image', { image })
+              res.render('image', { image })
             }
           }
         })
