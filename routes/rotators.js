@@ -7,7 +7,7 @@ var router = express.Router()
 var graylog2 = require('graylog2')
 
 var logger = new graylog2.graylog({
-  servers: [{ host: 'gl.input.itspty.dom', port: 12201 }], // hostname: 'server.name', // the name of this host (optional, default: os.hostname())
+  servers: [{ host: 'gl-input.itspty.dom', port: 12201 }], // hostname: 'server.name', // the name of this host (optional, default: os.hostname())
   facility: 'CONTENT-SOURCE-API', // the facility for these log messages (optional, default: "Node.js")
   bufferSize: 1350 // max UDP packet size, should never exceed the MTU of your system (optional, default: 1400)
 })
@@ -20,9 +20,12 @@ logger.on('error', function (error) {
 router.get('/', function (req, res, next) {
   const qs = R.merge(
     { status: 'published' },
-    R.omit(['userstate', 'siteid', 'json'], req.query)
+    R.omit(['json', 'pagename', 'siteid', 'template', 'userstate'], req.query)
   )
-  const sortByPriority = R.sortBy(R.prop('priority'))
+  const sortByPriority = R.sortWith([
+    R.descend(R.prop('created_at')),
+    R.ascend(R.prop('priority'))
+  ])
   const contentOnSchedule = content => {
     currentDate = new Date()
     const validStart =
@@ -49,6 +52,8 @@ router.get('/', function (req, res, next) {
   }
   const baseUrl = getBaseUrl(R.path(['siteid'], req.query))
   const jsonOnly = R.path(['json'], req.query) === '1'
+  const pageName = R.path(['pagename'], req.query)
+  const template = R.pathOr('rotator', ['template'], req.query)
   const getUserState = state => {
     let userState
     switch (state) {
@@ -90,7 +95,7 @@ router.get('/', function (req, res, next) {
         if (jsonOnly) {
           res.json(slides)
         } else {
-          res.render('rotator', { title: 'Rotator', slides: slides })
+          res.render(template, { title: 'Rotator', slides, pageName })
         }
       } else {
         request({
@@ -109,9 +114,10 @@ router.get('/', function (req, res, next) {
             if (jsonOnly) {
               res.json(slides)
             } else {
-              res.render('rotator', {
+              res.render(template, {
                 title: 'Default Rotator',
-                slides: slides
+                slides,
+                pageName
               })
             }
           }
