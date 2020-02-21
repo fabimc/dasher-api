@@ -95,7 +95,14 @@ router.get('/', function (req, res, next) {
         if (jsonOnly) {
           res.json(slides)
         } else {
-          res.render(template, { title: 'Rotator', slides, pageName })
+          res.render(template, {
+            pageName,
+            slides,
+            rotatorId: rotator.id,
+            rotatorName: rotator.name,
+            template,
+            title: 'Rotator'
+          })
         }
       } else {
         request({
@@ -104,20 +111,21 @@ router.get('/', function (req, res, next) {
           json: true
         }).then(function (rotatorsByPriority) {
           if (rotatorsByPriority.length > 0) {
-            console.log('rotatorsByPriority', rotatorsByPriority[0])
             const rotatorByPriority = rotatorsByPriority[0]
             slides = R.map(
               transformSlide,
               sortByPriority(rotatorByPriority.slides)
             )
-            console.log('default slides', slides)
             if (jsonOnly) {
               res.json(slides)
             } else {
               res.render(template, {
-                title: 'Default Rotator',
+                pageName,
+                rotatorId: rotatorByPriority.id,
+                rotatorName: rotatorByPriority.name,
                 slides,
-                pageName
+                template,
+                title: 'Default Rotator'
               })
             }
           }
